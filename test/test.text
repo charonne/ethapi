@@ -1,0 +1,16 @@
+
+
+POST : http://nodejs.factory.charonne.io:3000/contracts/insert
+{"source":"contract NewPoll {\n\n  //defines the poll\n  struct Poll {\n    address owner;\n    string title;\n    uint votelimit;\n    string options;\n    uint deadline;\n    bool status;\n    uint numVotes;\n  }\n\n  // event tracking of all votes\n  event NewVote(string votechoice);\n\n  // declare a public poll called p\n  Poll public p;\n\n  //initiator function that stores the necessary poll information\n  function NewPoll(string _options, string _title, uint _votelimit, uint _deadline) {\n    p.owner = msg.sender;\n    p.options = _options;\n    p.title = _title;\n    p.votelimit = _votelimit;\n    p.deadline = _deadline;\n    p.status = true;\n    p.numVotes = 0;\n  }\n\n  //function for user vote. input is a string choice\n  function vote(string choice) returns (bool) {\n    if (msg.sender != p.owner || p.status != true) {\n      return false;\n    }\n\n    p.numVotes += 1;\n    NewVote(choice);\n\n    // if votelimit reached, end poll\n    if (p.votelimit > 0) {\n      if (p.numVotes >= p.votelimit) {\n        endPoll();\n      }\n    }\n    return true;\n  }\n\n  //when time or vote limit is reached, set the poll status to false\n  function endPoll() returns (bool) {\n    if (msg.sender != p.owner) {\n      return false;\n    }\n    p.status = false;\n    return true;\n  }\n}\n"}
+
+POST : http://nodejs.factory.charonne.io:3000/contracts/deploy
+{"contract_id":"586257146c25293aeacabc9b", "params": ["coucou", "test", 40, 40]}
+
+POST : http://nodejs.factory.charonne.io:3000/contracts/exec
+{"contract_address":"0xc78370ac32cd16d8967f38b1084697b31bef6662", "method":"vote", "params": ["coucou"]}
+
+POST : http://nodejs.factory.charonne.io:3000/accounts/register
+{"username":"toto", "password":"42"}
+
+POST : http://nodejs.factory.charonne.io:3000/accounts/update
+{"account_address":"toto", "account_password":"42", "callback":"42"}
