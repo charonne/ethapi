@@ -20,7 +20,7 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
     // We're connected!
-    logger.log("info", "Connected correctly to server");
+    logger.log("info", "Connected correctly to database");
 });
 
 var routes = require('./routes/index');

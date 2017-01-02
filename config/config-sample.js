@@ -42,10 +42,10 @@ module.exports = {
         ],
         // Alert when account address is below the limit
         balance_limit: 2, // Ether
-    }
+    },
     
     // Workers
     workers: {
         enable: true // true, false
-    },
+    }
 }
