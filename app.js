@@ -56,13 +56,18 @@ app.use('/contracts', contracts);
 app.use('/transactions', transactions);
 app.use('/test', test);
 
-// Schedule
-// var rule = new schedule.RecurrenceRule();
-// rule.minute = config.schedule;
-// var j = schedule.scheduleJob('*/1 * * * *', function(){
-    // worker = new Worker();
-    // worker.process();
-// });
+// Workers
+if (config.workers.enable == true) {
+    logger.log("info", "Workers are enabled");
+    var rule = new schedule.RecurrenceRule();
+    rule.minute = config.schedule;
+    var j = schedule.scheduleJob('*/1 * * * *', function(){
+        worker = new Worker();
+        worker.process();
+    });
+} else {
+    logger.log("warn", "Workers are disabled");
+}
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -42,7 +42,7 @@ router.route('/')
     .get(function (req, res, next) {
         
         console.log(req.connection.remoteAddress);
-        
+        /*
         // Get tx
         Transaction.findById("5862eb7e9784f759edaa03dd")
             .populate('contract account')
@@ -53,7 +53,7 @@ router.route('/')
             ethereum = new Ethereum();
             ethereum.getAccount(transaction);
         });
-        
+        */
     })
     
     
