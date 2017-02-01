@@ -53,7 +53,7 @@ router.route('/create')
         var source = req.body.source;
         var source = source.replace(/\\n/g, "\n");
         
-        // Compile contract
+        // Get Ethereum
         ethereum = new Ethereum();
         if (ethereum instanceof Error) {
             return res.status(500).json({status: 'error'});
@@ -102,7 +102,6 @@ router.route('/deploy')
             var accountId = req.decoded._doc._id;
             
             // Save Tx
-            // Transaction.create({ type: type, params: params, contract_id: contract_id, account: accountId }, function (err, transaction) {
             Transaction.create({ type: type, params: params, contract: contract._id, account: accountId }, function (err, transaction) {
                 if(err) return next(err);
                 logger.log("info", 'transaction._id: ' + transaction._id);
@@ -135,13 +134,42 @@ router.route('/exec')
             var accountId = req.decoded._doc._id;
             
             // Save Tx
-            // Transaction.create({ type: type, method: method, params: params, contract_id: transaction.contract_id, contract_address: contract_address }, function (err, transaction) {
             Transaction.create({ type: type, method: method, params: params, contract: transaction.contract, contract_address: contract_address, account: accountId }, function (err, transaction) {
                 if(err) return next(err);
                 logger.log("info", 'transaction._id: ' + transaction._id);
                 // Response
                 return res.status(200).json({status: 'success', id: transaction._id});
             })
+        })
+    })
+    
+        
+router.route('/call')
+    
+    /**
+     * Create a contract
+     * req.params: { "contract_address": "<contract_address>", "method": "<method>", "params": [<params>]}
+     */
+    .post(function (req, res, next) {
+        var type = 'call';
+        var method = req.body.method;
+        var params = JSON.stringify(req.body.params);
+        var contract_address = req.body.contract_address;
+        
+        Transaction.findOne({ 'type': 'contract', 'contract_address': contract_address })
+            .exec(function (err, transaction) {
+            if(err) return next(err);
+            
+            // Get Ethereum
+            ethereum = new Ethereum();
+            if (ethereum instanceof Error) {
+                return res.status(500).json({status: 'error'});
+            }
+            
+            // Ethereum call
+            ethereum.call(transaction);
+            
+            return res.status(200).json({status: 'success', response: "ok"});
         })
     })
     

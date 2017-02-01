@@ -22,7 +22,7 @@ router.route('/')
      */
     .get(function (req, res, next) {
         Transaction.find({})
-            .populate('account')
+            // .populate('account')
             .exec(function (err, transactions) {
             if(err) return next(err);
             

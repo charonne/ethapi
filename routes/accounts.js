@@ -13,7 +13,10 @@ router.use(bodyParser.json());
 
 /* GET accounts listing. */
 router.route('/')
-    .get(Verify.verifyAccount, function(req, res, next) {
+
+    // .all(Verify.verifyAccount)
+
+    .get(function(req, res, next) {
         Account.find({}, function (err, account) {
             if(err) return next(err);
             res.json(account);
