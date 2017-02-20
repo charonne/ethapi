@@ -31,6 +31,12 @@ var test = require('./routes/test');
 
 var app = express();
 
+// set port
+app.set('port', process.env.PORT || config.port);
+var server = app.listen(app.get('port'), function() {
+    console.log('EthApi server listening on port ' + server.address().port);
+});
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');

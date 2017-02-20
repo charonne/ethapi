@@ -1,4 +1,7 @@
 module.exports = {
+    // Default port
+    port: 3000,
+    
     // Auth configuration
     secretKey: '12345-67890-09876-54321',
     accessTokenLifetime: 3600,
@@ -38,7 +41,7 @@ module.exports = {
         // List of nodes
         nodes: [
             'http://<node1:port>',
-            'http://<node2:port>',
+            'http://<node2:port>'
         ],
         // Alert when account address is below the limit
         balance_limit: 2, // Ether

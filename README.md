@@ -25,6 +25,17 @@ npm install
 <h2>Config</h2>
 Copy the config/config-sample.js to config/config.js
 
+<h2>Launch</h2>
+To launch the api, execute
+```
+pm2 start app.js  --name="ethapi"
+```
+
+To delete the api process, execute
+```
+pm2 delete ethapi
+```
+
 <h1>Usage</h1>
 
 <h2>Create a contract</h2>
