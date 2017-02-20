@@ -31,17 +31,17 @@ var test = require('./routes/test');
 
 var app = express();
 
-// set port
+// Set port
 app.set('port', process.env.PORT || config.port);
 var server = app.listen(app.get('port'), function() {
     console.log('EthApi server listening on port ' + server.address().port);
 });
 
-// view engine setup
+// View engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-// uncomment after placing your favicon in /public
+// Uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(morgan('dev'));
 app.use(bodyParser.json());
@@ -49,7 +49,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// passport config
+// Passport config
 var Account = require('./models/account');
 app.use(passport.initialize());
 passport.use(new LocalStrategy(Account.authenticate()));
@@ -75,17 +75,16 @@ if (config.workers.enable == true) {
     logger.log("warn", "Workers are disabled");
 }
 
-// catch 404 and forward to error handler
+// Catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
 
-// error handlers
+// Error handlers
 
-// development error handler
-// will print stacktrace
+// Development error handler will print stacktrace
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
@@ -96,8 +95,7 @@ if (app.get('env') === 'development') {
   });
 }
 
-// production error handler
-// no stacktraces leaked to user
+// Production error handler no stacktraces leaked to user
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error', {

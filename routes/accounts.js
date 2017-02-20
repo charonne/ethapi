@@ -14,7 +14,7 @@ router.use(bodyParser.json());
 /* GET accounts listing. */
 router.route('/')
 
-    // .all(Verify.verifyAccount)
+    .all(Verify.verifyAccount)
 
     .get(function(req, res, next) {
         Account.find({}, function (err, account) {
