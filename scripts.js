@@ -52,7 +52,7 @@ Script.prototype.userUpdate = function(username, field, value) {
         if(err) return next(err);
         
         if (account) {
-            if (account[field]) {
+            if (field == 'password' || account[field]) {
                 // Set data
                 var data = {};
                 data[field] = value;
