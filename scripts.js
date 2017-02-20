@@ -44,22 +44,30 @@ Script.prototype.users = function() {
     });
 };
 
-
 // Users methods
-Script.prototype.userPassword = function(username, password) {
-    logger.info('Change password for user: ' + username);
+Script.prototype.userUpdate = function(username, field, value) {
+    logger.info("Change '" + field + "' for user: " + username);
     
     Account.findOne({'username': username}, function (err, account) {
         if(err) return next(err);
         
         if (account) {
-            Account.update({'_id': account._id}, {'$set': {
-                'password': password
-            }}, function(err, resp) {
-                console.log('Password updated');
+            if (account[field]) {
+                // Set data
+                var data = {};
+                data[field] = value;
+                
+                // Update data
+                Account.update({'_id': account._id}, {'$set': data}, function(err, resp) {
+                    if(err) return next(err);
+                    
+                    console.log(field + " updated");
+                    process.exit(1);
+                });
+            } else {
+                logger.error('Field not found');
                 process.exit(1);
-            });
-            
+            }
         } else {
             logger.error('User not found');
             process.exit(1);
@@ -67,7 +75,7 @@ Script.prototype.userPassword = function(username, password) {
     });
 };
 
-
+// Check command
 if (typeof(process.argv[2]) == "undefined") {
     logger.error('No command');
     process.exit(1);
@@ -75,16 +83,19 @@ if (typeof(process.argv[2]) == "undefined") {
 
 var command = process.argv[2];
 
+logger.error(command);
+
 switch (command) {
-    case 'users':
+    case 'users:list':
         var script = new Script();
         script.users();
         break;
-    case 'user:password':
+    case 'user:update':
         var arg1 = process.argv[3];
         var arg2 = process.argv[4];
+        var arg3 = process.argv[5];
         var script = new Script();
-        script.userPassword(arg1, arg2);
+        script.userUpdate(arg1, arg2, arg3);
         break;
     default: 
         logger.error('Not a valid command: ' + command);
