@@ -1,8 +1,7 @@
-// grab the things we need
+// Grab the things we need
 var mongoose = require('mongoose')
     , Schema = mongoose.Schema;
 var Schema = mongoose.Schema;
-// var passportLocalMongoose = require('passport-local-mongoose');
 
 var transactionSchema = new Schema({
     type: {
@@ -13,10 +12,6 @@ var transactionSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Contract'
     },
-    // contract_id: {
-        // type: String,
-        // default: null
-    // },
     contract_address: {
         type: String,
         default: null
@@ -37,9 +32,17 @@ var transactionSchema = new Schema({
         type: Number,
         default: 0
     },
+    attempt: {
+        type: Number,
+        default: 0
+    },
     processed: {
         type: Number,
         default: 0
+    },
+    processedAt: {
+        type : Date,
+        default: null
     },
     verified: {
         type: Number,
@@ -61,8 +64,8 @@ transactionSchema.methods.getName = function() {
     return (this.address);
 };
 
-// create a model using it
+// Create a model using it
 var Transaction = mongoose.model('Transaction', transactionSchema);
 
-// make this available to our Node applications
+// Make this available to our Node applications
 module.exports = Transaction;

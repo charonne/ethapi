@@ -38,6 +38,8 @@ module.exports = {
         confirmations: 6,
         // Timeout of the transaction
         timeout: 60, // In minutes
+        // Number of attempt to send a transaction if failed
+        attempt: 3,
         // List of nodes
         nodes: [
             'http://<node1:port>',
